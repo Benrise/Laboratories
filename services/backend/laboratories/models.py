@@ -30,14 +30,14 @@ class UUIDMixin(models.Model):
         abstract = True
 
 
-class Genre(UUIDMixin, TimeStampedMixin):
+class Publication(UUIDMixin, TimeStampedMixin):
     name = models.CharField(_('name'), max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
 
     class Meta:
-        db_table = "content\".\"genre"
-        verbose_name = _('genre')
-        verbose_name_plural = _('genres')
+        db_table = "content\".\"publication"
+        verbose_name = _('publication')
+        verbose_name_plural = _('publications')
 
     def __str__(self):
         return self.name
@@ -67,7 +67,7 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
                                blank=True,
                                null=True)
     type = models.CharField(_('type'), max_length=128, choices=Type.choices)
-    genres = models.ManyToManyField(Genre, through='GenreFilmwork', null=True)
+    publications = models.ManyToManyField(Publication, through='PublicationFilmwork', null=True)
     persons = models.ManyToManyField(Person, through='PersonFilmwork', null=True)
 
     class Meta:
@@ -79,18 +79,18 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
         return self.title
 
 
-class GenreFilmwork(UUIDMixin):
+class PublicationFilmwork(UUIDMixin):
     film_work = models.ForeignKey('Filmwork', on_delete=models.CASCADE,
                                   verbose_name=_('film_work'))
-    genre = models.ForeignKey('Genre', on_delete=models.CASCADE,
+    publication = models.ForeignKey('Publication', on_delete=models.CASCADE,
                               verbose_name=_('person'))
     created_at = models.DateTimeField(_('created_at'), auto_now_add=True)
 
     class Meta:
-        db_table = "content\".\"genre_film_work"
-        verbose_name = _('genre_film_work')
-        verbose_name_plural = _('genre_film_works')
-        unique_together = ['genre', 'film_work']
+        db_table = "content\".\"publication_film_work"
+        verbose_name = _('publication_film_work')
+        verbose_name_plural = _('publication_film_works')
+        unique_together = ['publication', 'film_work']
 
 
 class PersonFilmwork(UUIDMixin):

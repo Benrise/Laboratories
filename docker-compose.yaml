@@ -13,7 +13,7 @@ services:
     ports:
       - 5433:5432
     healthcheck:
-        test: ["CMD", "psql", "-h", "localhost", "-U", "app", "-d", "movies_database"]
+        test: ["CMD", "psql", "-h", "localhost", "-U", "app", "-d", "laboratories_database"]
         interval: 2s
         retries: 100
 
@@ -22,8 +22,8 @@ services:
     build: ./services/backend
     env_file:
       - ./services/backend/.env
-    expose:
-      - "8000"
+    ports:
+      - 8000:8000
     depends_on:
       db:
         condition: service_healthy

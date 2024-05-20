@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Genre',
+            name='Publication',
             fields=[
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created_at')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='updated_at')),
@@ -47,9 +47,9 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(blank=True, verbose_name='description')),
             ],
             options={
-                'verbose_name': 'genre',
-                'verbose_name_plural': 'genres',
-                'db_table': 'content"."genre',
+                'verbose_name': 'publication',
+                'verbose_name_plural': 'publications',
+                'db_table': 'content"."publication',
             },
         ),
         migrations.CreateModel(
@@ -82,22 +82,22 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='GenreFilmwork',
+            name='PublicationFilmwork',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created_at')),
                 ('film_work', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laboratories.filmwork', verbose_name='film_work')),
-                ('genre', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laboratories.genre', verbose_name='person')),
+                ('publication', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laboratories.publication', verbose_name='person')),
             ],
             options={
-                'verbose_name': 'genre_film_work',
-                'verbose_name_plural': 'genre_film_works',
-                'db_table': 'content"."genre_film_work',
+                'verbose_name': 'publication_film_work',
+                'verbose_name_plural': 'publication_film_works',
+                'db_table': 'content"."publication_film_work',
             },
         ),
         migrations.AddField(
             model_name='filmwork',
-            name='genres',
-            field=models.ManyToManyField(through='laboratories.GenreFilmwork', to='laboratories.genre'),
+            name='publications',
+            field=models.ManyToManyField(through='laboratories.PublicationFilmwork', to='laboratories.publication'),
         ),
     ]

@@ -12,9 +12,9 @@ class FilmworkApiMixin:
     http_method_names = ['get']
 
     def get_queryset(self):
-        qs = Filmwork.objects.prefetch_related('genres', 'persons').values().annotate(
-            genres=ArrayAgg(
-                'genres__name',
+        qs = Filmwork.objects.prefetch_related('publications', 'persons').values().annotate(
+            publications=ArrayAgg(
+                'publications__name',
                 distinct=True
             ),
             actors=ArrayAgg(

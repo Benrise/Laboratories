@@ -1,23 +1,23 @@
 from django.contrib import admin
-from .models import Genre, Filmwork, GenreFilmwork, Person, PersonFilmwork
+from .models import Publication, Filmwork, PublicationFilmwork, Person, PersonFilmwork
 
 
-class GenreFilmworkInline(admin.TabularInline):
-    model = GenreFilmwork
+class PublicationFilmworkInline(admin.TabularInline):
+    model = PublicationFilmwork
 
 
 class PersonFilmworkInline(admin.TabularInline):
     model = PersonFilmwork
 
 
-@admin.register(Genre)
-class GenreAdmin(admin.ModelAdmin):
+@admin.register(Publication)
+class PublicationAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description', 'id',)
 
 
 @admin.register(Filmwork)
 class FilmworkAdmin(admin.ModelAdmin):
-    inlines = (GenreFilmworkInline,)
+    inlines = (PublicationFilmworkInline,)
 
     list_display = ('title', 'type', 'created_at', 'rating',)
 

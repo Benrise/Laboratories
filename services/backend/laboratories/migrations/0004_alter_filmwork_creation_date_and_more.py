@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('laboratories', '0003_alter_genrefilmwork_unique_together_and_more'),
+        ('laboratories', '0003_alter_publicationfilmwork_unique_together_and_more'),
     ]
 
     operations = [
@@ -28,8 +28,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='filmwork',
-            name='genres',
-            field=models.ManyToManyField(null=True, through='laboratories.GenreFilmwork', to='laboratories.genre'),
+            name='publications',
+            field=models.ManyToManyField(null=True, through='laboratories.PublicationFilmwork', to='laboratories.publication'),
         ),
         migrations.AlterField(
             model_name='filmwork',
@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
             field=models.FloatField(blank=True, default=0.0, null=True, validators=[django.core.validators.MinValueValidator(0.0), django.core.validators.MaxValueValidator(10)], verbose_name='rating'),
         ),
         migrations.AlterField(
-            model_name='genre',
+            model_name='publication',
             name='description',
             field=models.TextField(blank=True, null=True, verbose_name='description'),
         ),

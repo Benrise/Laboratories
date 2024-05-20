@@ -28,12 +28,12 @@ msgid "description"
 msgstr "Description"
 
 #: laboratories/models.py:28
-msgid "genre"
-msgstr "Genre"
+msgid "publication"
+msgstr "Publication"
 
 #: laboratories/models.py:29
-msgid "genres"
-msgstr "Genres"
+msgid "publications"
+msgstr "Publications"
 
 #: laboratories/models.py:37
 msgid "movie"
@@ -72,12 +72,12 @@ msgid "person"
 msgstr "Person"
 
 #: laboratories/models.py:70
-msgid "genre_film_work"
-msgstr "Genre to Film work"
+msgid "publication_film_work"
+msgstr "Publication to Film work"
 
 #: laboratories/models.py:71
-msgid "genre_film_works"
-msgstr "Genre to Film works"
+msgid "publication_film_works"
+msgstr "Publication to Film works"
 
 #: laboratories/models.py:75
 msgid "fullname"
