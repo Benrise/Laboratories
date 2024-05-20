@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: "db"
+    build: ./services/db
+    env_file:
+      - ./services/backend/.env
+    volumes:
+      - ./services/db/data:/var/lib/postgresql/data
+    expose:
+      - "5432"
+    ports:
+      - 5433:5432
+    healthcheck:
+        test: ["CMD", "psql", "-h", "localhost", "-U", "app", "-d", "movies_database"]
+        interval: 2s
+        retries: 100
+
+  app:
+    container_name: "app"
+    build: ./services/backend
+    env_file:
+      - ./services/backend/.env
+    expose:
+      - "8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./services/backend/static:/opt/app/static
+    healthcheck:
+      test: ["CMD-SHELL", "[ -e /opt/app/static ]"]
+      interval: 2s
+      retries: 100
+
+  swagger:
+    container_name: "docs"
+    image: swaggerapi/swagger-ui:v5.11.8
+    volumes:
+      - ./services/swagger/openapi.yaml:/swagger.yaml
+    env_file:
+      - ./services/backend/.env
+    ports:
+      - 8080:8080
+    depends_on:
+      - app
+
+  nginx:
+    container_name: "proxy"
+    restart: always
+    build: ./services/nginx
+    volumes:
+      - ./services/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./services/nginx/configs:/etc/nginx/conf.d:ro
+      - ./services/backend/static:/static/:ro
+    depends_on:
+      - app
+    ports:
+      - "80:80"
