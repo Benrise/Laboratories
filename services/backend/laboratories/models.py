@@ -16,6 +16,12 @@ class ActivityType(models.TextChoices):
     EXPERIMENTAL = "experimental", _("Experimental")
 
 
+class PublicationRole(models.TextChoices):
+    AUTHOR = 'author', _('Author')
+    EDITOR = 'editor', _('Editor')
+    REVIEWER = 'reviewer', _('Reviewer')
+
+
 class TimeStampedMixin(models.Model):
     created_at = models.DateTimeField(_('created_at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('updated_at'), auto_now=True)
@@ -34,6 +40,7 @@ class UUIDMixin(models.Model):
 class Publication(UUIDMixin, TimeStampedMixin):
     name = models.CharField(_('name'), max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
+    persons = models.ManyToManyField('Person', through='PublicationPerson', related_name='publications', null=True)
 
     class Meta:
         db_table = "content\".\"publication"
@@ -75,9 +82,9 @@ class Laboratory(UUIDMixin, TimeStampedMixin):
 
 class PublicationLaboratory(UUIDMixin):
     laboratory = models.ForeignKey('Laboratory', on_delete=models.CASCADE,
-                                  verbose_name=_('laboratory'))
+                                   verbose_name=_('laboratory'))
     publication = models.ForeignKey('Publication', on_delete=models.CASCADE,
-                              verbose_name=_('person'))
+                                    verbose_name=_('publication'))
     created_at = models.DateTimeField(_('created_at'), auto_now_add=True)
 
     class Meta:
@@ -89,7 +96,7 @@ class PublicationLaboratory(UUIDMixin):
 
 class PersonLaboratory(UUIDMixin):
     laboratory = models.ForeignKey('Laboratory', on_delete=models.CASCADE,
-                                  verbose_name=_('laboratory'))
+                                   verbose_name=_('laboratory'))
     person = models.ForeignKey('Person', on_delete=models.CASCADE,
                                verbose_name=_('person'))
     role = models.CharField(_('role'), max_length=20, choices=Role.choices)
@@ -100,3 +107,16 @@ class PersonLaboratory(UUIDMixin):
         verbose_name = _('person_laboratory')
         verbose_name_plural = _('person_laboratories')
         unique_together = ['laboratory', 'person', 'role']
+
+
+class PublicationPerson(UUIDMixin):
+    publication = models.ForeignKey('Publication', on_delete=models.CASCADE, verbose_name=_('publication'))
+    person = models.ForeignKey('Person', on_delete=models.CASCADE, verbose_name=_('person'))
+    role = models.CharField(_('role'), max_length=20, choices=PublicationRole.choices)
+    created_at = models.DateTimeField(_('created_at'), auto_now_add=True)
+
+    class Meta:
+        db_table = "content\".\"publication_person"
+        verbose_name = _('publication_person')
+        verbose_name_plural = _('publication_persons')
+        unique_together = ['publication', 'person', 'role']
