@@ -1,0 +1,24 @@
+.bgAnimation {
+  position: relative;
+}
+.bgAnimation::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/img/bg.png");
+  background-repeat: repeat;
+  animation: slide 20s linear infinite;
+  z-index: -1;
+}
+
+@keyframes slide {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 -200px;
+  }
+}

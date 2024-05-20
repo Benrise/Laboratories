@@ -75,8 +75,8 @@ class PersonApiMixin:
 
     def get_queryset(self):
         qs = Person.objects.prefetch_related(
-            'personlaboratory_set__laboratory',  # Prefetch laboratories related to Person through PersonLaboratory
-            'publications__publicationlaboratory_set__laboratory'  # Prefetch laboratories related to Publication through PublicationLaboratory
+            'personlaboratory_set__laboratory',
+            'publications__publicationlaboratory_set__laboratory'
         ).annotate(
             laboratory_titles=ArrayAgg(
                 'personlaboratory__laboratory__title',
