@@ -7,17 +7,17 @@ servers:
 paths:
   /api/v1/laboratories/:
     get:
-      description: ""
+      description: "Get list of laboratories"
       parameters:
         - name: page
           in: query
-          description: Номер страницы
+          description: Page number
           required: false
           schema:
             type: string
       responses:
         "200":
-          description: ""
+          description: "Successful response"
           content:
             application/json:
               schema:
@@ -25,21 +25,21 @@ paths:
                 properties:
                   count:
                     type: integer
-                    description: Количество объектов
+                    description: Number of objects
                     example: 1000
                   total_pages:
                     type: integer
-                    description: Количество страниц
+                    description: Number of pages
                     example: 20
                   prev:
                     type: integer
                     nullable: true
-                    description: Номер предыдущей страницы
+                    description: Previous page number
                     example: 1
                   next:
                     type: integer
                     nullable: true
-                    description: Номер следующей страницы
+                    description: Next page number
                     example: 2
                   results:
                     type: array
@@ -48,7 +48,7 @@ paths:
   
   /api/v1/laboratories/{id}:
     get:
-      description: ""
+      description: "Get details of a laboratory by ID"
       parameters:
         - in: path
           name: id  
@@ -56,15 +56,138 @@ paths:
           schema:
             type: string
             format: uuid
-          description: ID Лаборатории
+          description: Laboratory ID
         
       responses:
         "200":
-          description: ""
+          description: "Successful response"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Laboratory"
+                
+  /api/v1/persons/:
+    get:
+      description: "Get list of persons"
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Number of objects
+                    example: 1000
+                  total_pages:
+                    type: integer
+                    description: Number of pages
+                    example: 20
+                  prev:
+                    type: integer
+                    nullable: true
+                    description: Previous page number
+                    example: 1
+                  next:
+                    type: integer
+                    nullable: true
+                    description: Next page number
+                    example: 2
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Person"
+
+  /api/v1/persons/{id}:
+    get:
+      description: "Get details of a person by ID"
+      parameters:
+        - in: path
+          name: id  
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Person ID
+        
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+                
+  /api/v1/publications/:
+    get:
+      description: "Get list of publications"
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Number of objects
+                    example: 1000
+                  total_pages:
+                    type: integer
+                    description: Number of pages
+                    example: 20
+                  prev:
+                    type: integer
+                    nullable: true
+                    description: Previous page number
+                    example: 1
+                  next:
+                    type: integer
+                    nullable: true
+                    description: Next page number
+                    example: 2
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Publication"
+
+  /api/v1/publications/{id}:
+    get:
+      description: "Get details of a publication by ID"
+      parameters:
+        - in: path
+          name: id  
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Publication ID
+        
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Publication"
+
 components:
   schemas:
     Laboratory:
@@ -73,50 +196,97 @@ components:
         id:
           type: string
           format: uuid
-          description: ID 
+          description: Laboratory ID
         title:
           type: string
-          description: Название 
+          description: Title
           example: Crescent Star
         description:
           type: string
-          description: Описание  
+          description: Description
           example: In 1944, the Germans began rounding up the Jews of Rhodes.
         creation_date:
           type: string
           format: date
-          description: Дата создания
+          description: Creation date
         activity_type:
           type: string
-          description: Тип
+          description: Activity type
           example: scientific
         publications:
           type: array
-          description: Список публикаций
+          description: List of publications
           example: [Drama, Short]
           items:
             type: string
-            description: Название публикации
-        head:
+            description: Publication name
+        heads:
           type: array
-          description: Список заведующих
+          description: List of heads
           example: [Darrell Geer, Michael Bond]
           items:
             type: string
-            description: Имя заведующего
-        intern:
+            description: Head name
+        interns:
           type: array
-          description: Список стажеров
+          description: List of interns
           example: [Turgut Turk Adiguzel]
           items:
             type: string
-            description: Имя стажера
-            example: Turgut Turk Adiguzel
-        staff:
+            description: Intern name
+        staffs:
           type: array
-          description: Список сотрудников
+          description: List of staffs
           example: [Turgut Turk Adiguzel]
           items:
             type: string
-            description: Имя сотрудника
-            example: Turgut Turk Adiguzel                
+            description: Staff name
+
+    Person:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Person ID
+        full_name:
+          type: string
+          description: Full name
+          example: John Doe
+
+    Publication:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Publication ID
+        name:
+          type: string
+          description: Name
+          example: Drama
+        description:
+          type: string
+          description: Description
+          example: A drama novel
+        authors:
+          type: array
+          description: List of authors
+          example: [John Doe, Jane Smith]
+          items:
+            type: string
+            description: Author name
+        editors:
+          type: array
+          description: List of editors
+          example: [John Doe, Jane Smith]
+          items:
+            type: string
+            description: Editor name
+        reviewers:
+          type: array
+          description: List of reviewers
+          example: [John Doe, Jane Smith]
+          items:
+            type: string
+            description: Reviewer name
