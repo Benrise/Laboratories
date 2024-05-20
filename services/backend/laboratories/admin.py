@@ -1,13 +1,13 @@
 from django.contrib import admin
-from .models import Publication, Filmwork, PublicationFilmwork, Person, PersonFilmwork
+from .models import Publication, Laboratory, PublicationLaboratory, Person, PersonLaboratory
 
 
-class PublicationFilmworkInline(admin.TabularInline):
-    model = PublicationFilmwork
+class PublicationLaboratoryInline(admin.TabularInline):
+    model = PublicationLaboratory
 
 
-class PersonFilmworkInline(admin.TabularInline):
-    model = PersonFilmwork
+class PersonLaboratoryInline(admin.TabularInline):
+    model = PersonLaboratory
 
 
 @admin.register(Publication)
@@ -15,20 +15,20 @@ class PublicationAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description', 'id',)
 
 
-@admin.register(Filmwork)
-class FilmworkAdmin(admin.ModelAdmin):
-    inlines = (PublicationFilmworkInline,)
+@admin.register(Laboratory)
+class LaboratoryAdmin(admin.ModelAdmin):
+    inlines = (PublicationLaboratoryInline,)
 
-    list_display = ('title', 'type', 'created_at', 'rating',)
+    list_display = ('title', 'activity_type', 'created_at')
 
-    list_filter = ('type',)
+    list_filter = ('activity_type',)
 
     search_fields = ('title', 'description', 'id',)
 
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    inlines = (PersonFilmworkInline,)
+    inlines = (PersonLaboratoryInline,)
 
     list_display = ('full_name', 'created_at',)
 

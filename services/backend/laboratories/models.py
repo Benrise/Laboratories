@@ -1,18 +1,19 @@
 import uuid
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 
 
 class Role(models.TextChoices):
-    DIRECTOR = 'director', _('Director')
-    WRITER = 'writer', _('Writer')
-    ACTOR = 'actor', _('Actor')
+    HEAD = 'head', _('Head')
+    STAFF = 'staff', _('Staff')
+    INTERN = 'intern', _('Intern')
 
 
-class Type(models.TextChoices):
-    MOVIE = "movie", _('movie')
-    TV_SHOW = "tv_show", _('tv_show')
+class ActivityType(models.TextChoices):
+    SCIENTIFIC = "scientific", _("Scientific")
+    EDUCATIONAL = "educational", _("Educational")
+    PRODUCTION = "production", _("Production")
+    EXPERIMENTAL = "experimental", _("Experimental")
 
 
 class TimeStampedMixin(models.Model):
@@ -55,54 +56,47 @@ class Person(UUIDMixin, TimeStampedMixin):
         return self.full_name
 
 
-class Filmwork(UUIDMixin, TimeStampedMixin):
+class Laboratory(UUIDMixin, TimeStampedMixin):
     title = models.CharField(_('name'), max_length=255)
     description = models.TextField(_('description'), blank=True, null=True)
     creation_date = models.DateField(_('creation_date'), blank=True, null=True)
-    file_path = models.TextField(_('file_path'), blank=True, null=True)
-    rating = models.FloatField(_('rating'),
-                               default=0.0,
-                               validators=[MinValueValidator(0.0),
-                                           MaxValueValidator(10)],
-                               blank=True,
-                               null=True)
-    type = models.CharField(_('type'), max_length=128, choices=Type.choices)
-    publications = models.ManyToManyField(Publication, through='PublicationFilmwork', null=True)
-    persons = models.ManyToManyField(Person, through='PersonFilmwork', null=True)
+    activity_type = models.CharField(_('activity_type'), max_length=128, choices=ActivityType.choices)
+    publications = models.ManyToManyField(Publication, through='PublicationLaboratory', null=True)
+    persons = models.ManyToManyField(Person, through='PersonLaboratory', null=True)
 
     class Meta:
-        db_table = "content\".\"film_work"
-        verbose_name = _('film_work')
-        verbose_name_plural = _('film_works')
+        db_table = "content\".\"laboratory"
+        verbose_name = _('laboratory')
+        verbose_name_plural = _('laboratories')
 
     def __str__(self):
         return self.title
 
 
-class PublicationFilmwork(UUIDMixin):
-    film_work = models.ForeignKey('Filmwork', on_delete=models.CASCADE,
-                                  verbose_name=_('film_work'))
+class PublicationLaboratory(UUIDMixin):
+    laboratory = models.ForeignKey('Laboratory', on_delete=models.CASCADE,
+                                  verbose_name=_('laboratory'))
     publication = models.ForeignKey('Publication', on_delete=models.CASCADE,
                               verbose_name=_('person'))
     created_at = models.DateTimeField(_('created_at'), auto_now_add=True)
 
     class Meta:
-        db_table = "content\".\"publication_film_work"
-        verbose_name = _('publication_film_work')
-        verbose_name_plural = _('publication_film_works')
-        unique_together = ['publication', 'film_work']
+        db_table = "content\".\"publication_laboratory"
+        verbose_name = _('publication_laboratory')
+        verbose_name_plural = _('publication_laboratories')
+        unique_together = ['publication', 'laboratory']
 
 
-class PersonFilmwork(UUIDMixin):
-    film_work = models.ForeignKey('Filmwork', on_delete=models.CASCADE,
-                                  verbose_name=_('film_work'))
+class PersonLaboratory(UUIDMixin):
+    laboratory = models.ForeignKey('Laboratory', on_delete=models.CASCADE,
+                                  verbose_name=_('laboratory'))
     person = models.ForeignKey('Person', on_delete=models.CASCADE,
                                verbose_name=_('person'))
     role = models.CharField(_('role'), max_length=20, choices=Role.choices)
     created_at = models.DateTimeField(_('created_at'), auto_now_add=True)
 
     class Meta:
-        db_table = "content\".\"person_film_work"
-        verbose_name = _('person_film_work')
-        verbose_name_plural = _('person_film_works')
-        unique_together = ['film_work', 'person', 'role']
+        db_table = "content\".\"person_laboratory"
+        verbose_name = _('person_laboratory')
+        verbose_name_plural = _('person_laboratories')
+        unique_together = ['laboratory', 'person', 'role']

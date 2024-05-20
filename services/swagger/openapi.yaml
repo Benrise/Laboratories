@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Movies ListApi
+  title: Laboratories ListApi
   version: v1
 servers:
   - url: http://127.0.0.1:8000
@@ -44,7 +44,7 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Movie"
+                      $ref: "#/components/schemas/Laboratory"
   
   /api/v1/laboratories/{id}:
     get:
@@ -56,7 +56,7 @@ paths:
           schema:
             type: string
             format: uuid
-          description: ID кинопроизведения
+          description: ID Лаборатории
         
       responses:
         "200":
@@ -64,10 +64,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Movie"
+                $ref: "#/components/schemas/Laboratory"
 components:
   schemas:
-    Movie:
+    Laboratory:
       type: object
       properties:
         id:
@@ -86,15 +86,10 @@ components:
           type: string
           format: date
           description: Дата создания
-        rating:
-          type: number
-          format: float
-          description: Рейтинг
-          example: 7.9
-        type:
+        activity_type:
           type: string
           description: Тип
-          example: movie
+          example: scientific
         publications:
           type: array
           description: Список публикаций
@@ -102,26 +97,26 @@ components:
           items:
             type: string
             description: Название публикации
-        actors:
+        head:
           type: array
-          description: Список актёров
+          description: Список заведующих
           example: [Darrell Geer, Michael Bond]
           items:
             type: string
-            description: Имя актёра
-        directors:
+            description: Имя заведующего
+        intern:
           type: array
-          description: Список режиссеров
+          description: Список стажеров
           example: [Turgut Turk Adiguzel]
           items:
             type: string
-            description: Имя режиссера
+            description: Имя стажера
             example: Turgut Turk Adiguzel
-        writers:
+        staff:
           type: array
-          description: Список сценаристов
+          description: Список сотрудников
           example: [Turgut Turk Adiguzel]
           items:
             type: string
-            description: Имя сценариста
+            description: Имя сотрудника
             example: Turgut Turk Adiguzel                

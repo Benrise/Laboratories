@@ -4,33 +4,33 @@ from django.views.generic.detail import BaseDetailView
 from django.db.models import Q
 from django.contrib.postgres.aggregates import ArrayAgg
 
-from laboratories.models import Filmwork, Role
+from laboratories.models import Laboratory, Role
 
 
-class FilmworkApiMixin:
-    model = Filmwork
+class LaboratoryApiMixin:
+    model = Laboratory
     http_method_names = ['get']
 
     def get_queryset(self):
-        qs = Filmwork.objects.prefetch_related('publications', 'persons').values().annotate(
+        qs = Laboratory.objects.prefetch_related('publications', 'persons').values().annotate(
             publications=ArrayAgg(
                 'publications__name',
                 distinct=True
             ),
-            actors=ArrayAgg(
+            heads=ArrayAgg(
                 'persons__full_name',
                 distinct=True,
-                filter=Q(personfilmwork__role=Role.DIRECTOR),
+                filter=Q(personlaboratory__role=Role.HEAD),
             ),
-            directors=ArrayAgg(
+            iterns=ArrayAgg(
                 'persons__full_name',
                 distinct=True,
-                filter=Q(personfilmwork__role=Role.DIRECTOR),
+                filter=Q(personlaboratory__role=Role.INTERN),
             ),
-            writers=ArrayAgg(
+            staffs=ArrayAgg(
                 'persons__full_name',
                 distinct=True,
-                filter=Q(personfilmwork__role=Role.WRITER),
+                filter=Q(personlaboratory__role=Role.STAFF),
             ),
         )
         return qs
@@ -39,7 +39,7 @@ class FilmworkApiMixin:
         return JsonResponse(context)
 
 
-class MoviesListApi(FilmworkApiMixin, BaseListView):
+class LaboratoriesListApi(LaboratoryApiMixin, BaseListView):
     paginate_by = 50
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -58,6 +58,6 @@ class MoviesListApi(FilmworkApiMixin, BaseListView):
         return context
 
 
-class MoviesDetailApi(FilmworkApiMixin, BaseDetailView):    
+class LaboratoriesDetailApi(LaboratoryApiMixin, BaseDetailView):    
     def get_context_data(self, **kwargs):
         return self.get_object()

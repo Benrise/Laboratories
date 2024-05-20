@@ -11,8 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name='filmwork',
+            model_name='laboratory',
             name='persons',
-            field=models.ManyToManyField(through='laboratories.PersonFilmwork', to='laboratories.person'),
+            field=models.ManyToManyField(through='laboratories.PersonLaboratory', to='laboratories.person'),
         ),
     ]

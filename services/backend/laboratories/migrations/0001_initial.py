@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             reverse_sql=[("DROP SCHEMA IF EXISTS content CASCADE;")],
         ),
         migrations.CreateModel(
-            name='Filmwork',
+            name='Laboratory',
             fields=[
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created_at')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='updated_at')),
@@ -27,14 +27,12 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=255, verbose_name='name')),
                 ('description', models.TextField(blank=True, verbose_name='description')),
                 ('creation_date', models.DateField(blank=True, verbose_name='creation_date')),
-                ('file_path', models.TextField(blank=True, verbose_name='file_path')),
-                ('rating', models.FloatField(blank=True, default=0.0, validators=[django.core.validators.MinValueValidator(0.0), django.core.validators.MaxValueValidator(10)], verbose_name='rating')),
-                ('type', models.CharField(choices=[('movie', 'movie'), ('tv_show', 'tv_show')], max_length=128, verbose_name='type')),
+                ('activity_type', models.CharField(choices=[('scientific', 'Scientific'), ('educational', 'Educational'), ('production', 'Production'), ('experimental', 'Experimental')], max_length=128, verbose_name='activity_type')),
             ],
             options={
-                'verbose_name': 'film_work',
-                'verbose_name_plural': 'film_works',
-                'db_table': 'content"."film_work',
+                'verbose_name': 'laboratory',
+                'verbose_name_plural': 'laboratories',
+                'db_table': 'content"."laboratory',
             },
         ),
         migrations.CreateModel(
@@ -67,37 +65,37 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='PersonFilmwork',
+            name='PersonLaboratory',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('role', models.TextField(verbose_name='role')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created_at')),
-                ('film_work', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laboratories.filmwork', verbose_name='film_work')),
+                ('laboratory', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laboratories.laboratory', verbose_name='laboratory')),
                 ('person', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laboratories.person', verbose_name='person')),
             ],
             options={
-                'verbose_name': 'person_film_work',
-                'verbose_name_plural': 'person_film_works',
-                'db_table': 'content"."person_film_work',
+                'verbose_name': 'person_laboratory',
+                'verbose_name_plural': 'person_laboratories',
+                'db_table': 'content"."person_laboratory',
             },
         ),
         migrations.CreateModel(
-            name='PublicationFilmwork',
+            name='PublicationLaboratory',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created_at')),
-                ('film_work', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laboratories.filmwork', verbose_name='film_work')),
-                ('publication', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laboratories.publication', verbose_name='person')),
+                ('laboratory', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laboratories.laboratory', verbose_name='laboratory')),
+                ('publication', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='laboratories.publication', verbose_name='publication')),
             ],
             options={
-                'verbose_name': 'publication_film_work',
-                'verbose_name_plural': 'publication_film_works',
-                'db_table': 'content"."publication_film_work',
+                'verbose_name': 'publication_laboratory',
+                'verbose_name_plural': 'publication_laboratories',
+                'db_table': 'content"."publication_laboratory',
             },
         ),
         migrations.AddField(
-            model_name='filmwork',
+            model_name='laboratory',
             name='publications',
-            field=models.ManyToManyField(through='laboratories.PublicationFilmwork', to='laboratories.publication'),
+            field=models.ManyToManyField(through='laboratories.PublicationLaboratory', to='laboratories.publication'),
         ),
     ]
