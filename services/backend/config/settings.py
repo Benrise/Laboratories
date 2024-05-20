@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'movies.apps.MoviesConfig',
+    'laboratories.apps.MoviesConfig',
     'corsheaders'
 ]
 
@@ -87,7 +87,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-LOCALE_PATHS = ['movies/locale']
+LOCALE_PATHS = ['laboratories/locale']
 
 LOGGING = {
     'version': 1,
