@@ -43,9 +43,9 @@ function EmployeeDetail() {
   }
 
   return (
-    <Box p={4}>
+    <Box  p={16} gap={2} display="flex" flexDirection="column">
       <NextSeo title={employee.full_name} description={`Информация о сотруднике ${employee.full_name}`} />
-      <Image src='/img/miphi/miphi_profile.jpeg' alt={employee.full_name} width={256} height={256} />
+      <Image src='/img/miphi/miphi_profile.jpeg' border={"1px"} borderColor={"gray.200"} alt={employee.full_name} width={256} height={256} />
       <Heading fontSize="2xl" mb={4}>{employee.full_name}</Heading>
       <Text fontSize="lg" mb={4}>{employee.description}</Text>
       {employee.laboratory_titles && employee.laboratory_titles.length > 0 && (

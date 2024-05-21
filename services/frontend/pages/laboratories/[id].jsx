@@ -43,8 +43,8 @@ function LaboratoryDetail() {
   }
 
   return (
-    <Box p={4} pt={16}>
-        <Image src='/img/miphi/miphi_profile.jpeg' alt={lab.title} width={256} height={256} />
+    <Box p={16} gap={2} display="flex" flexDirection="column">
+        <Image src='/img/miphi/miphi_profile.jpeg' border={"1px"} borderColor={"gray.200"} alt={lab.title} width={256} height={256} />
       <Heading fontSize="2xl" mb={4}>
         {lab.title}
       </Heading>

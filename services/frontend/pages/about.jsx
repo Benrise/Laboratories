@@ -59,7 +59,7 @@ const About = () => {
         variants={containerVariant}
         maxW={[null, null, "2xl", "5xl"]}
         m="auto"
-        py="50px"
+        py="128px"
         textAlign="center"
       >
         <Image
