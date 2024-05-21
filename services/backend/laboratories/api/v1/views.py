@@ -122,7 +122,7 @@ class PublicationApiMixin:
     http_method_names = ['get']
 
     def get_queryset(self):
-        qs = Publication.objects.prefetch_related('persons').values().annotate(
+        qs = super().get_queryset().prefetch_related('persons').values().annotate(
             authors=ArrayAgg(
                 'persons__full_name',
                 distinct=True,
@@ -145,8 +145,16 @@ class PublicationApiMixin:
         return JsonResponse(context)
 
 
+
 class PublicationsListApi(PublicationApiMixin, BaseListView):
     paginate_by = 50
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query_param = self.request.GET.get('query')
+        if query_param and query_param.strip():
+            qs = qs.filter(name__icontains=query_param)
+        return qs
 
     def get_context_data(self, *, object_list=None, **kwargs):
         qs = self.get_queryset()

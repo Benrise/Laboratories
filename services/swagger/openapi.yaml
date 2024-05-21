@@ -137,6 +137,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: query
+          in: query
+          description: Search query for filtering publications by name
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           description: "Successful response"

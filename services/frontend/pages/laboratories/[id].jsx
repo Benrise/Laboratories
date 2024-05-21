@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Stack, Badge, Divider, Spinner } from "@chakra-ui/react";
+import { Box, Heading, Text, Stack, Badge, Divider, Spinner, Image } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -26,7 +26,16 @@ function LaboratoryDetail() {
   }, [id]);
 
   if (loading) {
-    return <Spinner size="xl" />;
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height="100vh"
+      >
+        <Spinner size="xl" />
+      </Box>
+    );
   }
 
   if (!lab) {
@@ -35,6 +44,7 @@ function LaboratoryDetail() {
 
   return (
     <Box p={4} pt={16}>
+        <Image src='/img/miphi/miphi_profile.jpeg' alt={lab.title} width={256} height={256} />
       <Heading fontSize="2xl" mb={4}>
         {lab.title}
       </Heading>

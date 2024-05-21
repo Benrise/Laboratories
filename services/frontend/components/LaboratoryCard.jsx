@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Stack, Badge, Divider } from "@chakra-ui/react";
+import { Box, Heading, Text, Stack, Badge, Divider, Image } from "@chakra-ui/react";
 import { format } from "@formkit/tempo";
 import activityTypeMapper from "../utils/activityTypeMapper";
 import Link from 'next/link';
@@ -16,6 +16,7 @@ function LaboratoryCard({ lab }) {
         style={{ scrollSnapAlign: "start" }}
         _hover={{ boxShadow: "md", cursor: "pointer" }}
       >
+        <Image src='/img/miphi/miphi_profile.jpeg' alt={lab.title} width={256} height={256} />
         <Heading fontSize="xl" mb={2}>
           {lab.title}
         </Heading>
