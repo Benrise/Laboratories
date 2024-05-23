@@ -11,4 +11,6 @@ python manage.py createsuperuser --no-input \
 
 python manage.py collectstatic --no-input
 
+chmod -R 777 /opt
+
 uwsgi --strict --ini uwsgi.ini

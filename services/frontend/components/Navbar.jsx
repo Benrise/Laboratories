@@ -75,6 +75,9 @@ const Navbar = () => {
           #ЛабораторииМИФИ
         </Link>
         <Stack spacing={5} direction="row" d={{ base: "none", lg: "flex" }}>
+          <Link route href="/news" color={color}>
+            Публикации
+          </Link>
           <Link route href="/research" color={color}>
             Работы
           </Link>
@@ -93,7 +96,8 @@ const Navbar = () => {
         <IconButton
           d={{ base: "flex", lg: "none" }}
           variant="transparent"
-          w="3vw"Р
+          w="3vw"
+          Р
           onClick={onOpen}
           icon={<FaBars />}
         />
@@ -102,10 +106,15 @@ const Navbar = () => {
         <DrawerOverlay zIndex={999}>
           <DrawerContent>
             <DrawerCloseButton />
-            <DrawerHeader>Лаборатории <br></br> НИЯУ МИФИ</DrawerHeader>
+            <DrawerHeader>
+              Лаборатории <br></br> НИЯУ МИФИ
+            </DrawerHeader>
 
             <DrawerBody>
               <Stack>
+                <Link p="2" route href="/news" color={color}>
+                  Публикации
+                </Link>
                 <Link p="2" route href="/research" color={color}>
                   Работы
                 </Link>
@@ -116,9 +125,7 @@ const Navbar = () => {
             </DrawerBody>
 
             <DrawerFooter>
-              <Text fontSize="sm">
-                НИЯУ МИФИ ❤️
-              </Text>
+              <Text fontSize="sm">НИЯУ МИФИ ❤️</Text>
             </DrawerFooter>
           </DrawerContent>
         </DrawerOverlay>

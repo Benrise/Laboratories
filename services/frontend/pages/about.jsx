@@ -82,6 +82,17 @@ const About = () => {
           <Heading as="h2" fontSize={{ base: "xl", lg: "2xl" }} mb="4">
             Наши сотрудники
           </Heading>
+          {jsonData.length === 0 && (
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              height="400"
+              style={{ scrollSnapAlign: "start" }}
+            >
+              Отсутствуют данные о сотрудниках
+            </Box>
+          )}
           <SimpleGrid columns={{ base: 1, lg: 3 }} spacing={4}>
             {jsonData.map((item, idx) => (
               <Link href={`/persons/${item.id}`} passHref key={idx}>

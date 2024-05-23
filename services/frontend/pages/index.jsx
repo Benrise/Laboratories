@@ -39,6 +39,17 @@ function LandingPage() {
       }}
     >
       <Jumbotron scrollToGrid={scrollToGrid} style={{ scrollSnapAlign: "start" }} />
+      {data.length === 0 && (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="400"
+            style={{ scrollSnapAlign: "start" }}
+          >
+            Отсутствуют данные о подразделений лабораторий
+          </Box>
+        )}
       <Grid
         ref={gridRef}
         templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
