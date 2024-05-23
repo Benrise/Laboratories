@@ -50,6 +50,11 @@ const About = () => {
     fetchData().then((data) => setJsonData(data));
   }, []);
 
+  const imageSrc = (src) => {
+    const imageSrc = src ? `http://127.0.0.1:8000/${src}` : '/img/miphi/miphi_profile.jpeg';
+    return imageSrc;
+  }
+
   return (
     <React.Fragment>
       <NextSeo title="О нас" description="Научно-исследовательская лаборатория МИФИ" />
@@ -105,14 +110,12 @@ const About = () => {
                   variants={itemVariant}
                   borderWidth="1px"
                   _hover={{ boxShadow: "md", cursor: "pointer" }}
+                  style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
                 >
-                  <Image src={'/img/miphi/miphi_profile.jpeg'} />
+                  <Image src={imageSrc(item.photo)} />
                   <Heading as="h4" fontSize="lg">
                     {item.full_name}
                   </Heading>
-                  <Text p="2" textAlign="justify">
-                    {item.description}
-                  </Text>
                   <Text p="2" textAlign="center">
                     {item.laboratory_titles[0]}
                   </Text>
