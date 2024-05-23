@@ -129,8 +129,8 @@ function LaboratoryDetail() {
         </Box>
       </Box>
       <Box p={16} gap={4} display="flex" flexDirection="column">
-        <Heading as="h2" fontSize={{ base: "xl", lg: "2xl" }} mb="4">
-          Наши сотрудники
+        <Heading as="h3" fontSize={{ base: "xl", lg: "2xl" }} mb="4">
+          Сотрудники
         </Heading>
         {(!persons || (persons.heads.length === 0 && persons.interns.length === 0 && persons.staffs.length === 0)) && (
           <Box
