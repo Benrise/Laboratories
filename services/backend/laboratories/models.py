@@ -1,7 +1,9 @@
 import uuid
+import datetime
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-import datetime
+
+from markdownx.models import MarkdownxField
 
 
 class Role(models.TextChoices):
@@ -56,6 +58,8 @@ class Publication(UUIDMixin, TimeStampedMixin):
 
 class Person(UUIDMixin, TimeStampedMixin):
     full_name = models.CharField(_("fullname"), max_length=255)
+    photo = models.ImageField(_("photo"), upload_to='static/person_photos/', null=True, blank=True)
+    description = MarkdownxField(_("description"), blank=True, null=True)
 
     class Meta:
         db_table = 'content"."person'

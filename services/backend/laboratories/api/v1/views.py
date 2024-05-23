@@ -242,3 +242,37 @@ class NewsDetailApi(BaseDetailView):
 
     def render_to_response(self, context, **response_kwargs):
         return JsonResponse(context)
+
+
+class LaboratoryPersonsApi(BaseDetailView):
+    model = Laboratory
+    http_method_names = ["get"]
+
+    def get_queryset(self):
+        return Laboratory.objects.all()
+
+    def get_context_data(self, **kwargs):
+        laboratory = self.get_object()
+
+        heads = Person.objects.filter(
+            personlaboratory__laboratory=laboratory, personlaboratory__role=Role.HEAD
+        ).values_list('id', 'full_name', 'photo')
+
+        interns = Person.objects.filter(
+            personlaboratory__laboratory=laboratory, personlaboratory__role=Role.INTERN
+        ).values_list('id', 'full_name', 'photo')
+
+        staffs = Person.objects.filter(
+            personlaboratory__laboratory=laboratory, personlaboratory__role=Role.STAFF
+        ).values_list('id', 'full_name', 'photo')
+
+        return {
+            "laboratory_id": laboratory.id,
+            "laboratory_name": laboratory.title,
+            "heads": list(heads),
+            "interns": list(interns),
+            "staffs": list(staffs),
+        }
+
+    def render_to_response(self, context, **response_kwargs):
+        return JsonResponse(context)

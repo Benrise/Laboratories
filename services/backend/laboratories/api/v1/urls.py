@@ -17,4 +17,5 @@ urlpatterns = [
     ),
     path("news/", views.NewsListApi.as_view(), name="news_list"),
     path("news/<uuid:pk>", views.NewsDetailApi.as_view(), name="news_detail"),
+    path('laboratories/<uuid:pk>/persons/', views.LaboratoryPersonsApi.as_view(), name='laboratory_persons_list'),
 ]

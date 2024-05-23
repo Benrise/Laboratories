@@ -20,7 +20,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'laboratories.apps.LaboratoriesConfig',
-    'corsheaders'
+    'corsheaders',
+    'markdownx',
 ]
 
 MIDDLEWARE = [
@@ -124,6 +125,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:3000"
 ]
+
+MARKDOWNX_MEDIA_PATH = 'markdownx/'
 
 if DEBUG:
     import socket

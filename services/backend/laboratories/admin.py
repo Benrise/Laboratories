@@ -8,6 +8,7 @@ from .models import (
     PublicationPerson,
     News,
 )
+from markdownx.admin import MarkdownxModelAdmin
 
 
 class PublicationLaboratoryInline(admin.TabularInline):
@@ -51,7 +52,7 @@ class LaboratoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(Person)
-class PersonAdmin(admin.ModelAdmin):
+class PersonAdmin(MarkdownxModelAdmin):
     inlines = (
         PersonLaboratoryInline,
         PublicationPersonInline,
@@ -59,12 +60,13 @@ class PersonAdmin(admin.ModelAdmin):
     list_display = (
         "full_name",
         "created_at",
+        "photo",
+        "description",
     )
     search_fields = (
         "full_name",
         "id",
     )
-
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
