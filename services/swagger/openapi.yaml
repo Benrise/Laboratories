@@ -65,7 +65,56 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Laboratory"
-                
+
+  /api/v1/laboratories/{id}/persons/:
+    get:
+      description: "Get all persons associated with a specific laboratory by ID"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Laboratory ID
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  laboratory_id:
+                    type: string
+                    format: uuid
+                    description: Laboratory ID
+                  laboratory_name:
+                    type: string
+                    description: Laboratory name
+                    example: Crescent Star
+                  heads:
+                    type: array
+                    description: List of heads
+                    example: [Darrell Geer, Michael Bond]
+                    items:
+                      type: string
+                      description: Head name
+                  interns:
+                    type: array
+                    description: List of interns
+                    example: [Turgut Turk Adiguzel]
+                    items:
+                      type: string
+                      description: Intern name
+                  staffs:
+                    type: array
+                    description: List of staffs
+                    example: [Turgut Turk Adiguzel]
+                    items:
+                      type: string
+                      description: Staff name              
+
   /api/v1/persons/:
     get:
       description: "Get list of persons"
