@@ -42,7 +42,7 @@ class LaboratoryAdmin(admin.ModelAdmin):
         PublicationLaboratoryInline,
         PersonLaboratoryInline,
     )
-    list_display = ("title", "activity_type", "created_at")
+    list_display = ("title", "activity_type", "created_at", "photo")
     list_filter = ("activity_type",)
     search_fields = (
         "title",

@@ -20,7 +20,7 @@ class ActivityType(models.TextChoices):
 
 
 class PublicationRole(models.TextChoices):
-    AUTHOR = "author", _("Author")
+    AUTHOR = "author", _("Author") 
     EDITOR = "editor", _("Editor")
     REVIEWER = "reviewer", _("Reviewer")
 
@@ -74,6 +74,7 @@ class Laboratory(UUIDMixin, TimeStampedMixin):
     title = models.CharField(_("name"), max_length=255)
     description = models.TextField(_("description"), blank=True, null=True)
     creation_date = models.DateField(_("creation_date"), blank=True, null=True)
+    photo = models.ImageField(_("photo"), upload_to='static/laboratory_photos/', null=True, blank=True)
     activity_type = models.CharField(
         _("activity_type"), max_length=128, choices=ActivityType.choices
     )

@@ -5,6 +5,12 @@ import Link from 'next/link';
 import React from "react";
 
 function LaboratoryCard({ lab }) {
+
+  const imageSrc = (src) => {
+    const imageSrc = src ? `http://127.0.0.1:8000/${src}` : '/img/miphi/miphi_profile.jpeg';
+    return imageSrc;
+  }
+
   return (
     <Link href={`/laboratories/${lab.id}`} passHref>
       <Box
@@ -16,7 +22,7 @@ function LaboratoryCard({ lab }) {
         style={{ scrollSnapAlign: "start" }}
         _hover={{ boxShadow: "md", cursor: "pointer" }}
       >
-        <Image src='/img/miphi/miphi_profile.jpeg' alt={lab.title} width={256} height={256} />
+        <Image src={imageSrc(lab.photo)} alignSelf={"center"} alt={lab.title} width={256} height={256} />
         <Heading fontSize="xl" mb={2}>
           {lab.title}
         </Heading>
