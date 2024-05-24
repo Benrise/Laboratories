@@ -98,17 +98,17 @@ function LaboratoryDetail() {
           </Text>
           {lab.heads && lab.heads.length > 0 && (
             <Text fontSize="md" mb={2}>
-              <strong>Заведующие:</strong> {lab.heads.map((head) => head[1]).join(", ")}
+              <strong>Заведующие:</strong> {lab.heads.join(", ")}
             </Text>
           )}
           {lab.staffs && lab.staffs.length > 0 && (
             <Text fontSize="md" mb={2}>
-              <strong>Сотрудники:</strong> {lab.staffs.map((staff) => staff[1]).join(", ")}
+              <strong>Сотрудники:</strong> {lab.staffs.join(", ")}
             </Text>
           )}
           {lab.interns && lab.interns.length > 0 && (
             <Text fontSize="md" mb={2}>
-              <strong>Стажеры:</strong> {lab.interns.map((intern) => intern[1]).join(", ")}
+              <strong>Стажеры:</strong> {lab.interns.join(", ")}
             </Text>
           )}
           <Text fontSize="md" mb={2}>
@@ -166,3 +166,4 @@ function LaboratoryDetail() {
 }
 
 export default LaboratoryDetail;
+
