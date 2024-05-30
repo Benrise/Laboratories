@@ -10,6 +10,10 @@ div#__next > div {
   background: blue;
 }
 
+body {
+  background-color: #f5f5f5 !important;
+}
+
 ::selection {
   color: white;
   background: blue;

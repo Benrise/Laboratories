@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Box, Heading, Text, Input, Spinner } from "@chakra-ui/react";
+import { Box, Heading, Text, Input, Spinner, Link } from "@chakra-ui/react";
 import axios from "axios";
 import { NextSeo } from "next-seo";
 import { format } from "@formkit/tempo";
 import { debounce } from "lodash";
+import { serialize } from "next-mdx-remote/serialize";
+import { MDXRemote } from "next-mdx-remote";
 
 const Research = () => {
   const [data, setData] = useState([]);
@@ -29,7 +31,19 @@ const Research = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost/api/v1/publications/?page=1");
-      return response.data.results;
+      const publications = response.data.results;
+
+      const publicationsWithMdx = await Promise.all(
+        publications.map(async (publication) => {
+          if (publication.description) {
+            const mdxSource = await serialize(publication.description);
+            return { ...publication, mdxSource };
+          }
+          return publication;
+        })
+      );
+
+      return publicationsWithMdx;
     } catch (error) {
       console.error("Ошибка при получении данных:", error);
       return [];
@@ -61,24 +75,28 @@ const Research = () => {
   };
 
   return (
-      <Box px={{ default: 6, md: 4 }} maxWidth="7xl" pt={128}  margin="auto">
-        <NextSeo
-          title="Работы"
-          description="Past research by our members"
-        />
-        <Heading mt="2" fontSize={{ base: "2xl", lg: "3xl" }}>
-          Работы
-        </Heading>
-        <Text>Все исследовательские работы лаборатории</Text>
-        <Input
-          mt="4"
-          placeholder="Поиск..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-        <Box overflow="auto" mt="6">
+    <Box px={{ default: 6, md: 4 }} maxWidth="7xl" pt={128} margin="auto">
+      <NextSeo title="Работы" description="Past research by our members" />
+      <Heading mt="2" fontSize={{ base: "2xl", lg: "3xl" }}>
+        Работы
+      </Heading>
+      <Text>Все исследовательские работы лаборатории</Text>
+      <Input
+        mt="4"
+        placeholder="Поиск..."
+        value={searchTerm}
+        onChange={handleSearch}
+        background={"white"}
+      />
+      <Box overflow="auto" mt="6" background={"white"}>
         {loading ? (
-          <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
         ) : (
           <Box w="full" overflow="auto">
             <Box as="table" width="full" textAlign="left">
@@ -91,7 +109,7 @@ const Research = () => {
                     Описание
                   </Box>
                   <Box as="th" borderWidth={1} p={2}>
-                    Автор
+                    Авторы
                   </Box>
                   <Box as="th" borderWidth={1} p={2}>
                     Опубликовано
@@ -102,16 +120,22 @@ const Research = () => {
                 {data.map((item, idx) => (
                   <Box as="tr" key={idx}>
                     <Box as="td" borderWidth={1} p={2}>
-                      {item.name}
+                      <Link color={"blue.500"} href={`/research/${item.id}`} passHref>
+                        <a>{item.name}</a>
+                      </Link>
                     </Box>
                     <Box as="td" borderWidth={1} p={2}>
-                      {item.description}
+                      {item.mdxSource ? (
+                        <MDXRemote {...item.mdxSource} />
+                      ) : (
+                        item.description
+                      )}
                     </Box>
                     <Box as="td" borderWidth={1} p={2}>
                       {item.authors}
                     </Box>
                     <Box as="td" borderWidth={1} p={2}>
-                      {format(item.created_at, "DD.MM.YYYY")}
+                      {item.publication_date ? format(item.publication_date, "DD.MM.YYYY") : "-"}
                     </Box>
                   </Box>
                 ))}
@@ -120,7 +144,7 @@ const Research = () => {
           </Box>
         )}
       </Box>
-      </Box>
+    </Box>
   );
 };
 

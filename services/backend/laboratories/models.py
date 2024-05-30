@@ -42,15 +42,16 @@ class UUIDMixin(models.Model):
 
 class Publication(UUIDMixin, TimeStampedMixin):
     name = models.CharField(_("name"), max_length=255)
-    description = models.TextField(_("description"), blank=True, null=True)
+    description = MarkdownxField(_("description"), blank=True, null=True)
     persons = models.ManyToManyField(
         "Person", through="PublicationPerson", related_name="publications", null=True
     )
+    publication_date = models.DateField(_("publication_date"), blank=True, null=True)
 
     class Meta:
         db_table = 'content"."publication'
-        verbose_name = _("publication")
-        verbose_name_plural = _("publications")
+        verbose_name = _("research")
+        verbose_name_plural = _("researchs")
 
     def __str__(self):
         return self.name
@@ -72,7 +73,7 @@ class Person(UUIDMixin, TimeStampedMixin):
 
 class Laboratory(UUIDMixin, TimeStampedMixin):
     title = models.CharField(_("name"), max_length=255)
-    description = models.TextField(_("description"), blank=True, null=True)
+    description = MarkdownxField(_("description"), blank=True, null=True)
     creation_date = models.DateField(_("creation_date"), blank=True, null=True)
     photo = models.ImageField(_("photo"), upload_to='static/laboratory_photos/', null=True, blank=True)
     activity_type = models.CharField(
@@ -145,7 +146,7 @@ class PublicationPerson(UUIDMixin):
 class News(UUIDMixin):
     title = models.TextField("Title")
     short_content = models.TextField("Short content")
-    content = models.TextField("Content")
+    content = MarkdownxField(_("content"), blank=True, null=True)
     author = models.TextField("Author")
     picture = models.FileField(
         "Picture", upload_to="static/news_pictures", null=True, blank=True
@@ -156,5 +157,5 @@ class News(UUIDMixin):
 
     class Meta:
         db_table = 'content"."news'
-        verbose_name = _("news")
-        verbose_name_plural = _("news")
+        verbose_name = _("publication")
+        verbose_name_plural = _("publications")

@@ -29,8 +29,8 @@ const EmployeeDetail = ({ employee, mdxSource }) => {
   const imageSrc = employee.photo ? `http://127.0.0.1:8000/${employee.photo}` : '/img/miphi/miphi_profile.jpeg';
 
   return (
-    <Box p={16} gap={2} display="flex" flexDirection="row" flexWrap={"wrap"}>
-      <Box p={16} gap={2} display="flex" flexDirection="column">
+    <Box p={32} gap={16} display="flex" flexDirection="row" flexWrap={"wrap"}>
+      <Box gap={4} display="flex" flexDirection="column">
         <NextSeo title={employee.full_name} description={`Информация о сотруднике ${employee.full_name}`} />
         <Image src={imageSrc} border={"1px"} borderColor={"gray.200"} alt={employee.full_name} width={256} height={256} />
         <Heading fontSize="2xl" mb={4}>{employee.full_name}</Heading>
@@ -52,7 +52,7 @@ const EmployeeDetail = ({ employee, mdxSource }) => {
           </>
         )}
       </Box>
-      <Box p={16} gap={2} display="flex" flexDirection="column" maxWidth={'70%'}>
+      <Box p={16} gap={2} display="flex" flexDirection="column" maxWidth={'70%'} style={{backgroundColor: "white", padding: "48px" , borderRadius: "8px"}}>
         <Heading as="h3" fontSize="xl" mb={4}>Информация о сотруднике</Heading>
         <MDXRemote {...mdxSource} />
       </Box>

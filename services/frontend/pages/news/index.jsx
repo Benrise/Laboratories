@@ -57,6 +57,7 @@ const News = () => {
                   border: "1px solid #e2e8f0",
                   borderRadius: "8px",
                   width: "35rem",
+                  backgroundColor: "white"
                 }}
               >
                 {ele.picture && (

@@ -53,18 +53,13 @@ const Navbar = () => {
   return (
     <Box
       style={{
-        background:
-          router.pathname === "/"
-            ? "transparent"
-            : isTop
-            ? "transparent"
-            : bgColor,
+        background: bgColor,
       }}
       w="full"
       position="fixed"
       top
       zIndex={1}
-      p={2}
+      p={4}
       px={{ base: 4, lg: 5 }}
       d="flex"
       alignItems="center"
@@ -72,7 +67,7 @@ const Navbar = () => {
     >
       <Stack direction="row" spacing={5}>
         <Link route href="/" fontWeight="bold" color={color}>
-          #ЛабораторииМИФИ
+          ЛабораторияМИФИ
         </Link>
         <Stack spacing={5} direction="row" d={{ base: "none", lg: "flex" }}>
           <Link route href="/news" color={color}>
@@ -87,12 +82,6 @@ const Navbar = () => {
         </Stack>
       </Stack>
       <Stack direction="row">
-        <IconButton
-          variant="transparent"
-          w="3vw"
-          onClick={toggleColorMode}
-          icon={Icons}
-        />
         <IconButton
           d={{ base: "flex", lg: "none" }}
           variant="transparent"

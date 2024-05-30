@@ -1,21 +1,28 @@
+import React, { useEffect, useState } from "react";
 import { Box, Heading, Text, Spinner, Image, Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import Link from "../../components/Link";
+import Link from "next/link";
+import { MDXRemote } from "next-mdx-remote";
+import { serialize } from "next-mdx-remote/serialize";
 
 function NewsDetail() {
   const router = useRouter();
   const { id } = router.query;
   const [news, setNews] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [mdxSource, setMdxSource] = useState(null);
 
   useEffect(() => {
     if (id) {
       axios
         .get(`http://localhost/api/v1/news/${id}`)
-        .then((response) => {
+        .then(async (response) => {
           setNews(response.data);
+          if (response.data.content) {
+            const mdx = await serialize(response.data.content);
+            setMdxSource(mdx);
+          }
           setLoading(false);
         })
         .catch((error) => {
@@ -74,17 +81,18 @@ function NewsDetail() {
       <Heading fontSize="2xl" mb={4}>
         {news.title}
       </Heading>
-      <Text style={{ whiteSpace: "pre-wrap", width: "100%" }}>
-        {news.content}
-      </Text>
-      <Text color="gray">Автор: {news.author}</Text>
-      <Text color="gray">Добавлено: {news.created_at}</Text>
-      <Link
-        route
-        href={`/news`}
-        fontWeight="bold"
-        style={{ marginTop: "auto" }}
-      >
+      {mdxSource ? (
+        <Box style={{ whiteSpace: "pre-wrap", width: "100%", backgroundColor: "white", padding: "48px" , borderRadius: "8px" }}>
+          <MDXRemote {...mdxSource} />
+        </Box>
+      ) : (
+        <Text style={{ whiteSpace: "pre-wrap", width: "100%", backgroundColor: "white", padding: "48px" , borderRadius: "8px" }}>
+          {news.content}
+        </Text>
+      )}
+      <Text color="gray" style={{backgroundColor: "white", padding: "48px" , borderRadius: "8px"}}>Авторы: {news.author}</Text>
+      <Text color="gray" style={{backgroundColor: "white", padding: "48px" , borderRadius: "8px"}}>Добавлено: {news.created_at}</Text>
+      <Link href={`/news`} passHref>
         <Button
           style={{
             width: "100%",
